@@ -25,23 +25,27 @@ public class Review {
 //       } 
 //       ***********************************************END TEST MAIN****************
         
-	  private String bookTitle, userID;
+    private String bookTitle, userID;
     private boolean positiveReview;
     //Id,Title,Price,User_id,profileName,review/helpfulness,review/score,review/time,review/summary,review/text
 
-	  public Review(String reviewRow) {
+    public Review(String reviewRow) {
 	  
           String[] csvSplit = reviewRow.split(",");
-          bookTitle = csvSplit[1];
-          userID = csvSplit[3];
           
-          positiveReview = posOrNegReview(csvSplit[6]);
+          if(csvSplit.length < 10){
+            positiveReview = false;  //discard if data point isnt valid
+          }
           
-//          System.out.println(bookTitle);
-//          System.out.println(userID);
-//          System.out.println(positiveReview);
-		  
-	  }
+          else{
+          
+            bookTitle = csvSplit[1];
+            userID = csvSplit[3];
+            
+            positiveReview = posOrNegReview(csvSplit[6]);
+          }
+          
+     }
      
     private boolean posOrNegReview(String rating) {
           
@@ -56,9 +60,11 @@ public class Review {
 		  return bookTitle;
 	  }
 
-	  public String getuserID() {
+	  public String getUserID() {
 		  return userID;
 	  }
-
- 
+     
+    	  public boolean getPositiveReview() {
+		  return positiveReview;
+	  }
 }
