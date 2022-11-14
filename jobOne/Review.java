@@ -56,9 +56,11 @@ public class Review {
 		  return bookTitle;
 	  }
 
-	  public String getuserID() {
+	  public String getUserID() {
 		  return userID;
 	  }
-
- 
+	  
+	  public boolean getPositiveReview() {
+		  return positiveReview;
+	  }
 }
