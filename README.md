@@ -21,3 +21,12 @@ Mapper: Outputs (Bigrams of user's reviewed positive book titles, IntWritable(1)
 Reducer: Outputs: (Bigram, number of occurences of bigram)
 
 Output: Bigram of titles TAB # of occurences
+
+### Job Three
+Input: Job Two's output
+
+Mapper: Outputs (Book Title, RecomendationWritable[Recomendation Title, # of Occurences]) 
+
+Reducer: Outputs (Book Title, Comma separated sorted list of most recomended titles SPACE the titles # of Occurences) 
+
+Output: Title TAB title 21, title 10, title 8, ...
