@@ -58,20 +58,27 @@ public class UserToBooksMapReduce extends Configured implements Tool{
 
 		public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
 
+			Set<String> booksSet = new HashSet<String> (); 
 			String groupedBooks = "";
 			boolean first = true;
 			int count = 0;
 			
 			for (Text book : values) {
+        
+				booksSet.add(book.toString());
+
+			}
+			
+			for (String book : booksSet) {
 				
 				count++;
 				
 				if(first){
-					groupedBooks = book.toString();
+					groupedBooks = book;
 					first = false;
 				}
 				else{
-					groupedBooks += "," + book.toString();
+					groupedBooks += "," + book;
 				}
 			}
 			
