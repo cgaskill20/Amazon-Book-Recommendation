@@ -28,7 +28,7 @@ import java.util.*;
 import java.io.BufferedReader;
 import java.io.StringReader;
 
-public class MovieBigramsMapReduce extends Configured implements Tool{
+public class BookBigramsMapReduce extends Configured implements Tool{
 
 	public static class TokenizerMapper extends Mapper<Object, Text, Text, IntWritable> {
 
@@ -72,11 +72,11 @@ public class MovieBigramsMapReduce extends Configured implements Tool{
 		Job job = Job.getInstance(conf, "bigram");
 
 		job.setInputFormatClass(TextInputFormat.class);
-		job.setJarByClass(MovieBigramsMapReduce.class);
+		job.setJarByClass(BookBigramsMapReduce.class);
 
-		job.setMapperClass(MovieBigramsMapReduce.TokenizerMapper.class);
-		//job.setCombinerClass(MovieBigramsMapReduce.class);
-		job.setReducerClass(MovieBigramsMapReduce.IntSumReducer.class);
+		job.setMapperClass(BookBigramsMapReduce.TokenizerMapper.class);
+		//job.setCombinerClass(BookBigramsMapReduce.class);
+		job.setReducerClass(BookBigramsMapReduce.IntSumReducer.class);
 
 		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(IntWritable.class);
@@ -90,7 +90,7 @@ public class MovieBigramsMapReduce extends Configured implements Tool{
 		//ToolRunner allows for command line configuration parameters - suitable for shifting between local job and yarn
 		// example command: hadoop jar <path_to_jar.jar> <main_class> -D param=value <input_path> <output_path>
 		//We use -D mapreduce.framework.name=<value> where <value>=local means the job is run locally and <value>=yarn means using YARN
-		int res = ToolRunner.run(new Configuration(), new MovieBigramsMapReduce(), args);
+		int res = ToolRunner.run(new Configuration(), new BookBigramsMapReduce(), args);
     System.exit(res); //res will be 0 if all tasks are executed succesfully and 1 otherwise
 	}
 
