@@ -31,12 +31,15 @@ public class Review {
 
     public Review(String reviewRow) {
 	  
-          String[] csvSplit = reviewRow.split(",");
+          String[] csvSplit = reviewRow.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
           
           if(csvSplit.length < 10){
             positiveReview = false;  //discard if data point isnt valid
           }
           
+          else if(csvSplit[3].length() < 1){
+            positiveReview = false;
+          }
           else{
           
             bookTitle = csvSplit[1];
