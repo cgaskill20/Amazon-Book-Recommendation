@@ -5,6 +5,8 @@ We take as input the User ID, and the names of titles that they left a positive 
 and creating a bigram connecting two different titles when a person has positively reviewed both, we create the start of a 
 link where we can use the connection to help recommend books given a different user has reviewed one of the bigram's books.
 
+_The output of this job will be used in the next job, which is where the actual recommendations will come from._
+
 Commands used to run this job:<br> 
 <br>
 `$HADOOP_HOME/bin/hadoop com.sun.tools.javac.Main *.java`
