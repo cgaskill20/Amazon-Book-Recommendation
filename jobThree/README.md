@@ -10,6 +10,6 @@ Commands used to run this job:<br>
 
 `jar cf RecomendationListMapReduce.jar *.class`
 
-`$HADOOP_HOME/bin/hadoop fs -put ~/BookRecomendation3 /`
+`$HADOOP_HOME/bin/hadoop fs -put ~/BookRecomendation/jobThree /`
 
-`$HADOOP_HOME/bin/hadoop jar ~/BookRecomendation3/RecomendationListMapReduce.jar RecomendationListMapReduce /BookRecomendation3/input/ /BookRecomendation3/output`
+`$HADOOP_HOME/bin/hadoop jar ~/BookRecomendation/jobThree/RecomendationListMapReduce.jar RecomendationListMapReduce /BookRecomendation/jobThree/input/ /BookRecomendation/jobThree/output`
