@@ -12,4 +12,4 @@ Commands used to run this job:<br>
 
 `$HADOOP_HOME/bin/hadoop fs -put ~/BookRecomendation/jobThree /`
 
-`$HADOOP_HOME/bin/hadoop jar ~/BookRecomendation/jobThree/RecomendationListMapReduce.jar RecomendationListMapReduce /BookRecomendation/jobThree/input/ /BookRecomendation/jobThree/output`
+`$HADOOP_HOME/bin/hadoop jar ~/jobThree/RecomendationListMapReduce.jar RecomendationListMapReduce /jobThree/input/ /jobThree/output`
