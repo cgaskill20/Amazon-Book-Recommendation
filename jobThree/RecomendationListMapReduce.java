@@ -1,7 +1,7 @@
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.Map.*;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -46,22 +46,44 @@ public class RecomendationListMapReduce extends Configured implements Tool{
 				RecomendationWriteable recWrite = new RecomendationWriteable(secondBook, ocurences);
 				context.write(firstBook, recWrite);
 			}
-
-	    	
 	    }
-
 	}
 
-	public static class IntSumReducer extends Reducer<Text, RecomendationWriteable, Text, RecomendationWriteable> {
+	public static class IntSumReducer extends Reducer<Text, RecomendationWriteable, Text, Text> {
 
 
 		public void reduce(Text key, Iterable<RecomendationWriteable> values, Context context) throws IOException, InterruptedException {
 
+			Map<String, Integer> recomendations = new HashMap<String, Integer>();
+			String outputValue = "";
 			
 			for (RecomendationWriteable rec : values) {
- /////////////NOT DONE//////////////////////////////////////////////////////////////////////////////////////////
-				context.write(key, rec);
+				recomendations.put(rec.getRecomendationTitle().toString(), rec.getOcurences().get());
 			}
+			
+			for (Entry<String, Integer> entry : entriesSortedByValues(recomendations)) {
+				outputValue += ", " + entry.getKey() + " " + entry.getValue();
+			}
+			
+			Text value = new Text(outputValue);
+			
+			context.write(key, value);
+		}
+		
+		static <K,V extends Comparable<? super V>> 
+            List<Entry<K, V>> entriesSortedByValues(Map<K,V> map) {
+
+			List<Entry<K,V>> sortedEntries = new ArrayList<Entry<K,V>>(map.entrySet());
+
+			Collections.sort(sortedEntries, new Comparator<Entry<K,V>>() {
+					@Override
+					public int compare(Entry<K,V> e1, Entry<K,V> e2) {
+                    return e2.getValue().compareTo(e1.getValue());
+					}
+				}
+			);
+
+			return sortedEntries;
 		}
 	}
 
@@ -75,9 +97,12 @@ public class RecomendationListMapReduce extends Configured implements Tool{
 		job.setMapperClass(RecomendationListMapReduce.TokenizerMapper.class);
 		//job.setCombinerClass(RecomendationListMapReduce.class);
 		job.setReducerClass(RecomendationListMapReduce.IntSumReducer.class);
+		
+		job.setMapOutputKeyClass(Text.class);
+		job.setMapOutputValueClass(RecomendationWriteable.class);
 
 		job.setOutputKeyClass(Text.class);
-		job.setOutputValueClass(RecomendationWriteable.class);
+		job.setOutputValueClass(Text.class);
 
 		FileInputFormat.addInputPath(job, new Path(inputDir));
 		FileOutputFormat.setOutputPath(job, new Path(outputDir));
