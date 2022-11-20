@@ -14,7 +14,7 @@ Reducer: Outputs (userID, List of Book Titles) for each user with more than one 
 Output: UserID TAB Title,Title,Title... (the mix of tab and commas may be difficult to read in. If so i can put a comma before the first book to split easier.
 
 ### Job Two
-Input: Job One's output (UserID TAB Title, Title, Title...)
+Input: Job One's output (Train Split) (UserID TAB Title, Title, Title...)
 
 Mapper: Outputs (Bigrams of user's reviewed positive book titles, IntWritable(1))
 
@@ -30,3 +30,14 @@ Mapper: Outputs (Book Title, RecomendationWritable[Recomendation Title, # of Occ
 Reducer: Outputs (Book Title, Comma separated sorted list of most recomended titles SPACE the titles # of Occurences) 
 
 Output: Title TAB title 21, title 10, title 8, ...
+
+### Recommender
+Input: Job Three's output AND A portion of the origional input data used for testing
+
+Mapper1 (Origional Input): Outputs  (Positively reviewed book title, "A " + UserID)
+
+Mapper2 (Job Three Output): Outputs (Book Title, "B " + Recommendation List)
+
+Reducer: Outputs (User ID, List of 3 recommendations)
+
+Output: UserID TAB Rec1, Rec2, Rec3
