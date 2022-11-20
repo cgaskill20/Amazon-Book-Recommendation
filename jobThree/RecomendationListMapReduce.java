@@ -62,7 +62,7 @@ public class RecomendationListMapReduce extends Configured implements Tool{
 			}
 			
 			for (Entry<String, Integer> entry : entriesSortedByValues(recomendations)) {
-				outputValue += ", " + entry.getKey() + " " + entry.getValue();
+				outputValue += entry.getKey() + " ";
 			}
 			
 			Text value = new Text(outputValue);
