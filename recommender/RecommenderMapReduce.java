@@ -121,7 +121,7 @@ public class RecommenderMapReduce extends Configured implements Tool{
 		}
 	}
 
-	public static int runJob(Configuration conf, String inputDirArticles, String inputDirPartA, String outputDir) throws Exception {
+	public static int runJob(Configuration conf, String input, String job3, String outputDir) throws Exception {
 		
 		Job job = Job.getInstance(conf, "ngram");
 
@@ -134,8 +134,8 @@ public class RecommenderMapReduce extends Configured implements Tool{
 
 		FileOutputFormat.setOutputPath(job, new Path(outputDir));
 		
-		MultipleInputs.addInputPath(job, new Path(inputDirArticles), WholeFileInputFormat.class, InputMapper.class);
-        MultipleInputs.addInputPath(job, new Path(inputDirPartA), WholeFileInputFormat.class, Job3Mapper.class);
+		MultipleInputs.addInputPath(job, new Path(input), WholeFileInputFormat.class, InputMapper.class);
+        MultipleInputs.addInputPath(job, new Path(job3), WholeFileInputFormat.class, Job3Mapper.class);
 		
 		return job.waitForCompletion(true) ? 0 : 1;
 	}
