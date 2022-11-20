@@ -27,6 +27,6 @@ Input: Job Two's output
 
 Mapper: Outputs (Book Title, RecomendationWritable[Recomendation Title, # of Occurences]) 
 
-Reducer: Outputs (Book Title, Comma separated sorted list of most recomended titles SPACE the titles # of Occurences) 
+Reducer: Outputs (Book Title, Sorted list of most recomended titles) 
 
-Output: Title TAB title 21, title 10, title 8, ...
+Output: Title TAB title title title ...
