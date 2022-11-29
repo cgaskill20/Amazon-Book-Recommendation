@@ -13,6 +13,8 @@ libraryDependencies += "org.apache.spark" %% "spark-sql" % "3.0.1"
 // https://mvnrepository.com/artifact/org.apache.spark/spark-graphx
 libraryDependencies += "org.apache.spark" %% "spark-graphx" % "3.0.1"
 
+libraryDependencies += "org.apache.spark" %% "spark-mllib" % "2.4.0"
+
 artifactName := { (sv: ScalaVersion, module: ModuleID, artifact: Artifact) =>
   artifact.name + "_" + sv.binary + "-" + module.revision + "." + artifact.extension
 }
