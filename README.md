@@ -41,3 +41,14 @@ Mapper2 (Job Three Output): Outputs (Book Title, "B " + Recommendation List)
 Reducer: Outputs (User ID, List of 3 recommendations)
 
 Output: UserID TAB Rec1, Rec2, Rec3
+
+### Accuracy
+Input: Recommender output of TEST data, Job One ouput of TRAIN data
+
+Mapper1 (Recommender output): Outputs  (UserID, PositivelyReviewedTitle PositivelyReviewedTitle...)
+
+Mapper2 (Job One ouput): Outputs (UserID, RecommendedTitle RecommendedTitle...)
+
+Reducer: Outputs (User ID, List of 3 recommendations)
+
+Output: 1 or 0 for correct recommendation, NullWritable(nothing)
