@@ -37,8 +37,12 @@ public class RecomendationListMapReduce extends Configured implements Tool{
 			String line=null;
 			while((line=bufReader.readLine()) != null ) {
         
-				String[] curLine = line.split("\\s+");
-				
+				String[] curLine = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
+        
+				if(curLine.length <= 2){
+		  			continue;
+        			}
+        
 				Text firstBook = new Text(curLine[0]);
 				Text secondBook = new Text(curLine[1]);
 				IntWritable ocurences = new IntWritable(Integer.parseInt(curLine[2].trim()));
@@ -55,14 +59,14 @@ public class RecomendationListMapReduce extends Configured implements Tool{
 		public void reduce(Text key, Iterable<RecomendationWriteable> values, Context context) throws IOException, InterruptedException {
 
 			Map<String, Integer> recomendations = new HashMap<String, Integer>();
-			String outputValue = "";
+			String outputValue = ", ";
 			
 			for (RecomendationWriteable rec : values) {
 				recomendations.put(rec.getRecomendationTitle().toString(), rec.getOcurences().get());
 			}
 			
 			for (Entry<String, Integer> entry : entriesSortedByValues(recomendations)) {
-				outputValue += entry.getKey() + " ";
+				outputValue += entry.getKey() + ", ";
 			}
 			
 			Text value = new Text(outputValue);

@@ -45,7 +45,7 @@ public class BookBigramsMapReduce extends Configured implements Tool{
 					continue;
 				}
 				else {
-					bigram.set(titles[i] + ", " + titles [j]);
+					bigram.set(titles[i] + ", " + titles [j] + ",");
 				}
 				if(bigram.toString().length() > 1){
 					context.write(bigram, new IntWritable(1));

@@ -20,7 +20,7 @@ Mapper: Outputs (Bigrams of user's reviewed positive book titles, IntWritable(1)
 
 Reducer: Outputs: (Bigram, number of occurences of bigram)
 
-Output: Bigram of titles TAB # of occurences
+Output: Bigram of titles, TAB # of occurences
 
 ### Job Three
 Input: Job Two's output
@@ -29,7 +29,7 @@ Mapper: Outputs (Book Title, RecomendationWritable[Recomendation Title, # of Occ
 
 Reducer: Outputs (Book Title, Sorted list of most recomended titles) 
 
-Output: Title TAB title 21, title 10, title 8, ...
+Output: Title TAB , bestRecommendedTitle, 2ndBestTitle, 3rdBestTitle, ...
 
 ### Recommender
 Input: Job Three's output AND A portion of the origional input data used for testing
