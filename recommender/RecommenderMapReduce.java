@@ -88,7 +88,7 @@ public class RecommenderMapReduce extends Configured implements Tool{
         private Text IDKey = new Text();
         private static final Text EMPTY_TEXT = new Text("");
 
-		public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
+	public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
 		
             input.clear();
             job3.clear();
@@ -113,12 +113,13 @@ public class RecommenderMapReduce extends Configured implements Tool{
                 for (Text UserID : input) {//go through users who positively reviewed this book(key)
                     for (Text Recommendations : job3) {//Should just be 1 set of recomendations
 				
-						context.write(UserID, Recommendations);
+			Text userIDComma = new Text (UserID.toString() + ",");
+			context.write(userIDComma, Recommendations);
 					
-					} 
-                }
-            }
-		}
+		     } 
+                 }
+             }
+	   }
 	}
 
 	public static int runJob(Configuration conf, String input, String job3, String outputDir) throws Exception {
