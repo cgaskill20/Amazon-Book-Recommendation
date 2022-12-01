@@ -29,7 +29,7 @@ Mapper: Outputs (Book Title, RecomendationWritable[Recomendation Title, # of Occ
 
 Reducer: Outputs (Book Title, Sorted list of most recomended titles) 
 
-Output: Title TAB title 21, title 10, title 8, ...
+Output: Title TAB , bestRecommendedTitle, 2ndBestTitle, 3rdBestTitle, ...
 
 ### Recommender
 Input: Job Three's output AND A portion of the origional input data used for testing
