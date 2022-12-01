@@ -43,10 +43,13 @@ public class AccuracyMapReduce extends Configured implements Tool{
 			String line=null;
 			while((line=bufReader.readLine()) != null ) {
 
-				String arr[] = line.split(" ", 2);
+				String arr[] = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", 2);
+        if(arr.length <= 1){ continue;}
 
-				userID = new Text("A" +arr[0]);
-				recommendedTitles = new Text(arr[1]);
+				userID = new Text(arr[0].trim());
+				recommendedTitles = new Text("A" +arr[1].replaceAll("\\s+",""));
+        
+        //System.out.println("RECOMENDER " + recommendedTitles.toString());
 
 				context.write(userID, recommendedTitles); 
 			}
@@ -66,10 +69,13 @@ public class AccuracyMapReduce extends Configured implements Tool{
 			String line=null;
 			while((line=bufReader.readLine()) != null ) {
 
-				String arr[] = line.split(" ", 2);
+				String arr[] = line.split("\t", 2);
+        if(arr.length <= 1){ continue;}
 
-				userID = new Text("B" +arr[0]);
-				positivelyReviewedTitles = new Text(arr[1]);
+				userID = new Text(arr[0].trim());
+				positivelyReviewedTitles = new Text("B" +arr[1].replaceAll("\\s+",""));
+
+        //System.out.println("JOB1 " + positivelyReviewedTitles.toString());
 
 				context.write(userID, positivelyReviewedTitles); 
 			}
@@ -108,26 +114,51 @@ public class AccuracyMapReduce extends Configured implements Tool{
                 for (Text recs : recommender) {//go through each recommendation set for this user
 					
 					String recsString = recs.toString();
-					List<String> recommendedTitles = Arrays.asList(recsString.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1));
+                 
+                 
+					String[] recommendedTitles = recsString.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
+          Arrays.sort(recommendedTitles);
+          //List<String> recTitles = new ArrayList<String>(Arrays.asList(recommendedTitles));
 				
-                    for (Text positiveReviews : job1) {//Should just be 1 set of positively reviewd books from job 1
+          for (Text positiveReviews : job1) {//Should just be 1 set of positively reviewd books from job 1
 						
 						String positiveReviewsString = positiveReviews.toString();
-						List<String> positivelyReviewedTitlesTitles = Arrays.asList(positiveReviewsString.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1));
-						
-						
-						positivelyReviewedTitlesTitles.retainAll(recommendedTitles);
-						Text numMatchingRecommendations = new Text(String.valueOf(positivelyReviewedTitlesTitles.size()));
-						NullWritable nw = NullWritable.get();
-						
-						context.write(numMatchingRecommendations, nw);//write once per user
-						
-						
-					
-					} 
-                }
+                                         
+                                         
+						String[] positivelyReviewedTitlesTitles = positiveReviewsString.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
+            Arrays.sort(positivelyReviewedTitlesTitles);
+            //List<String> posRevTitles = new ArrayList<String>(Arrays.asList(positivelyReviewedTitlesTitles));
+            
+            int matches = 0;
+            
+            for(int i = 0, j = 0;i < recommendedTitles.length && j < positivelyReviewedTitlesTitles.length;){
+                  int res = recommendedTitles[i].compareTo(positivelyReviewedTitlesTitles[j]);
+                  if(res == 0){
+                      matches++;
+                      i++;
+                      j++;
+                  }else if(res < 0){
+                      i++;
+                  }else{
+                      j++;
+                  }
+              }
+                      
+            
+            Text numMatchingRecommendations;
+                                             
+            if(positivelyReviewedTitlesTitles.length <= 1) {
+              matches++;
             }
-		}
+            
+            numMatchingRecommendations = new Text(String.valueOf(matches));
+            NullWritable nw = NullWritable.get();
+	    context.write(numMatchingRecommendations, nw);//write once per user
+						
+	    } 
+           }
+          }
+	 }
 	}
 
 	public static int runJob(Configuration conf, String recommender, String job1, String outputDir) throws Exception {
