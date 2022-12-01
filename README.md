@@ -20,7 +20,7 @@ Mapper: Outputs (Bigrams of user's reviewed positive book titles, IntWritable(1)
 
 Reducer: Outputs: (Bigram, number of occurences of bigram)
 
-Output: Bigram of titles TAB # of occurences
+Output: Bigram of titles, TAB # of occurences
 
 ### Job Three
 Input: Job Two's output
