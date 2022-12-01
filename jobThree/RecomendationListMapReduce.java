@@ -59,7 +59,7 @@ public class RecomendationListMapReduce extends Configured implements Tool{
 		public void reduce(Text key, Iterable<RecomendationWriteable> values, Context context) throws IOException, InterruptedException {
 
 			Map<String, Integer> recomendations = new HashMap<String, Integer>();
-			String outputValue = "";
+			String outputValue = ", ";
 			
 			for (RecomendationWriteable rec : values) {
 				recomendations.put(rec.getRecomendationTitle().toString(), rec.getOcurences().get());
