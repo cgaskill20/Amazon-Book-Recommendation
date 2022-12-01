@@ -37,8 +37,12 @@ public class RecomendationListMapReduce extends Configured implements Tool{
 			String line=null;
 			while((line=bufReader.readLine()) != null ) {
         
-				String[] curLine = line.split("\\s+");
-				
+				String[] curLine = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
+        
+				if(curLine.length <= 2){
+		  			continue;
+        			}
+        
 				Text firstBook = new Text(curLine[0]);
 				Text secondBook = new Text(curLine[1]);
 				IntWritable ocurences = new IntWritable(Integer.parseInt(curLine[2].trim()));
@@ -62,7 +66,7 @@ public class RecomendationListMapReduce extends Configured implements Tool{
 			}
 			
 			for (Entry<String, Integer> entry : entriesSortedByValues(recomendations)) {
-				outputValue += entry.getKey() + " ";
+				outputValue += entry.getKey() + ", ";
 			}
 			
 			Text value = new Text(outputValue);
