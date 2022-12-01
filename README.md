@@ -40,7 +40,7 @@ Mapper2 (Job Three Output): Outputs (Book Title, "B " + Recommendation List)
 
 Reducer: Outputs (User ID, List of 3 recommendations)
 
-Output: UserID TAB Rec1, Rec2, Rec3
+Output: UserID, TAB Rec1, Rec2, Rec3
 
 ### Accuracy
 Input: Recommender output of TEST data, Job One ouput of TRAIN data
